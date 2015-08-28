@@ -1,3 +1,2 @@
 <?php
-
-	echo "Working";
+	header( "Location:login.php" );
