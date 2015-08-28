@@ -16,8 +16,14 @@
         $user_left=0;
     else
         $user_left=@$_GET['data_userdata_page'];
-    
-    $sql_account = "SELECT * FROM accounts ORDER BY level DESC";
+
+    if( @$_GET['account_page']=='' )
+        $account_left=0;
+    elseif(@$_GET['account_page']<0)
+        $account_left=0;
+    else
+        $account_left=@$_GET['account_page'];
+    $sql_account = "SELECT * FROM accounts LIMIT ".$account_left.",".$right."";
     $data_account = sql_q($sql_account,array());
     $sql_opendata = "SELECT * FROM data WHERE type=? LIMIT ".$opendata_left.",".$right." ";
     $data_opendata = sql_q($sql_opendata,array('opendata'));
@@ -31,7 +37,11 @@
         <title>庶民生活日記</title>
         <link rel="stylesheet" href="css/bootstrap.css">     
         <link rel="stylesheet" href="css/stylelayout.css"> 
-
+<style type="text/css">
+                  .hide_td{
+            display: none;
+        }
+  </style>
     </head>
     <body>
         <header>
@@ -76,6 +86,7 @@
                                     <td class="active">編號</td>
                                     <td class="active">標題</td>
                                     <td class="active">備註</td>
+                                    <td class="active">處理</td>
                                 </tr>
                             <?php 
                                 foreach ( $data_opendata as $dt ){?>
@@ -83,7 +94,7 @@
                                 <td><?php echo $dt['d_no']; ?> </td>
                                 <td><?php echo $dt['title']; ?></td>
                                 <td><?php echo $dt['note']; ?></td>
-                                
+                                <td><?php echo '<button' ?></td>
                                 </tr>
                             <?php }?>
                             </table>
@@ -91,9 +102,9 @@
                                                   
                             <?php
                                 $lefturl='./main.php?data_opendata_page='.($opendata_left-10).'#clients';
-                                echo '<li><a href="'.$lefturl.'">&laquo;</a></li>';
+                                echo '<li><a href="'.$lefturl.'">上一頁</a></li>';
                                 $righturl='./main.php?data_opendata_page='.($opendata_left+10).'#clients';
-                                echo '<li><a href="'.$righturl.'">&raquo;</a></li>';
+                                echo '<li><a href="'.$righturl.'">下一頁</a></li>';
                             ?>
                             </ul>  
                         </ul>
@@ -127,6 +138,14 @@
                                 </tr>
                             <?php }?>
                             </table>
+                            <ul class="pagination">         
+                            <?php
+                                $lefturl='./main.php?account_page='.($account_left-10).'#about';
+                                echo '<li><a href="'.$lefturl.'">上一頁</a></li>';
+                                $righturl='./main.php?account_page='.($account_left+10).'#about';
+                                echo '<li><a href="'.$righturl.'">下一頁</a></li>';
+                            ?>
+                            </ul> 
                     </div>
                 </div>
             </div>
@@ -145,14 +164,52 @@
                                     <td class="active">編號</td>
                                     <td class="active">標題</td>
                                     <td class="active">備註</td>
+                                    <td class="active">處理</td>
                                 </tr>
                             <?php 
                                 foreach ( $data_userdata as $dt ){?>
                                 <tr>
-                                <td><?php echo $dt['d_no']; ?> </td>
-                                <td><?php echo $dt['title']; ?></td>
-                                <td><?php echo $dt['note']; ?></td>
-                                
+                                    <td><?php echo $dt['d_no']; ?> </td>
+                                    <td><?php echo $dt['title']; ?></td>
+                                    <td><?php echo $dt['note']; ?></td>
+                                    <td><?php echo '<button type="button" class="btn btn-primary btn-lg open-message" 
+                                        data-toggle="modal" 
+                                        data-target=".myModal">
+                                        詳細資料
+                                        </button>';?><td>
+                                </tr>
+                                <tr class="hide_td">
+                                    <td>
+                                        <table class="table">
+                                            <tr class="active">
+                                                    <th>欄位</th>
+                                                    <th>資料</th>
+                                            </tr>
+                                            <tr>
+                                                <th> 標題 </th>
+                                                <td><?php echo input_show( $dt['title'],'title' ); ?> </td>
+                                            </tr>
+                                            <tr>
+                                                <th> 內文 </th>
+                                                <td><?php echo input_show( $dt['content'],'content' ); ?> </td>
+                                            </tr>
+                                            
+                            
+                                            <tr>
+                                                <th> lng </th>
+                                                <td><?php echo $dt['lng']; ?> </td>
+                                            </tr>
+                                            <tr>
+                                                <th> lat </th>
+                                                <td><?php echo $dt['lat']; ?> </td>
+                                            </tr>
+                                            <tr>
+                                                <th> 地址 </th>
+                                                <td><?php echo $dt['address']; ?></td>
+                                                <td><input type="hidden" name="d_no" class="edi_hidden" value="<?php echo $dt['d_no']; ?>"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
                                 </tr>
                             <?php }?>
                             </table>
@@ -160,9 +217,9 @@
                                                   
                             <?php
                                 $lefturl='./main.php?data_userdata_page='.($user_left-10).'#contact-us';
-                                echo '<li><a href="'.$lefturl.'">&laquo;</a></li>';
+                                echo '<li><a href="'.$lefturl.'">上一頁</a></li>';
                                 $righturl='./main.php?data_userdata_page='.($user_left+10).'#contact-us';
-                                echo '<li><a href="'.$righturl.'">&raquo;</a></li>';
+                                echo '<li><a href="'.$righturl.'">下一頁</a></li>';
                             ?>
                             </ul>  
                         </ul>
@@ -170,8 +227,45 @@
                 </div>
             </div>
         </section>
+
+        <div class="myModal modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">詳細資料</h4>
+                </div>
+                <form class="update_form" action="update.php" method="POST">
+                    <div class="modal-body"> 
+                            <table class="table table-hover" >
+                                <tr class="surre">
+                                </tr>
+                            </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary edimessage" >編輯資料</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form> 
+                </div>
+            </div>
+        </div>
         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
         <script src="js/index.js"></script>
         <script src="js/bootstrap.js"></script>
+        <script >
+            $( ".open-message" )
+            .click(function(){
+                var msg = $(this).parent().parent().next().html();
+                $(".surre" ).html(msg);
+                
+            });
+            $( ".edimessage" )
+            .click(function(){
+                
+                $(".update_form" ).submit();
+                
+            });
+        </script>
     </body>
 </html>
