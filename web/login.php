@@ -1,12 +1,18 @@
+<?php
+    require_once('./function.php');
+
+    if(@$_SESSION['level']=='999')
+        header("Location:main.php");
+?>
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <title>庶民生活日記管理者後台</title>
         <link href="http://fonts.googleapis.com/css?family=Abel" rel="stylesheet" type="text/css" />
-        <meta ContentType=html/text; charset=utf-8>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/style.css" rel="stylesheet">
         <link href='http://fonts.googleapis.com/css?family=Covered+By+Your+Grace' rel='stylesheet' type='text/css'>
+        <link href="css/animate.css" rel="stylesheet">
         <style type="text/css">
             .box{
                 width: 300px;
@@ -50,23 +56,23 @@
         </style>
     </head>
     <body>
-        <form class="inline">
-            <div class="box animated fadeInDown">
+        <form class="inline" action="connect.php" method="POST">
+            <div class="box loginscreen animated fadeInDown">
                 <div class="form-group" align="center">
-                    <img src="./css/icon.png" 
+                    <img src="./lobg.jpg" 
                     class="img-circle" alt="庶民生活日記" width="200" height="200"> 
                 </div>
                 <div class="form-group" align="center">
                     <h2 class="tit">Plebeian life diary</h2>    
                 </div> 
                 <div class="input-control" >
-                  <span id="basic-addon1" class=" input-group-addon glyphicon glyphicon-user"></span>
-                  <input type="text" class="username form-control" placeholder="輸入您的使用者帳號" aria-describedby="basic-addon1">
+                    <span id="basic-addon1" class=" input-group-addon glyphicon glyphicon-user"></span>
+                    <input type="text" name ="account" class="username form-control" placeholder="輸入您的使用者帳號" aria-describedby="basic-addon1">
                 </div>
                 <br>
                 <div class="input-control">
-                  <span class="input-group-addon glyphicon glyphicon-lock"></span>
-                  <input type="text" class="password form-control" placeholder="輸入您的使用者密碼" aria-describedby="sizing-addon1">
+                    <span class="input-group-addon glyphicon glyphicon-lock"></span>
+                    <input type="text" name="password" class="password form-control" placeholder="輸入您的使用者密碼" aria-describedby="sizing-addon1">
                 </div>
                 <br>
                     <input type="submit" class="subbtn btn btn-primary block full-width m-b" value="登入"> 
