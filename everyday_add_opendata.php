@@ -12,12 +12,11 @@
 			$dt = sql_q($sql_s,array());
 			$sql = "INSERT INTO data (d_no,title,content,lng,lat,type,stime,etime,note,category,address) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			for ($i=0; $i < count($url); $i++) {
-				for ($x=0; $x < count($dt) ; $x++) { 
-					$pro = '998';
-					if($url[$i]['title']===$dt[$x]['title']){
-						$pro = '999';
-						break;
-					}
+				
+				if($url[$i]['descriptionFilterHtml']==''){
+					$pro='999';
+				}else{
+					$pro='998';
 				}
 				if($pro!='999'){
 					if(count($url[$i]['showInfo'])!='1'){
@@ -25,7 +24,7 @@
 							$sql_arr = array();
 							array_push( $sql_arr,'null' );
 							array_push( $sql_arr,$url[$i]['title'] );
-							array_push( $sql_arr,$url[$i]['webSales'] );
+							array_push( $sql_arr,$url[$i]['descriptionFilterHtml'] );
 							array_push( $sql_arr,$url[$i]['showInfo'][$y]['longitude'] );
 							array_push( $sql_arr,$url[$i]['showInfo'][$y]['latitude'] );
 							array_push( $sql_arr,'opendata' );
@@ -42,7 +41,7 @@
 						$sql_arr = array();
 						array_push( $sql_arr,'null' );
 						array_push( $sql_arr,$url[$i]['title'] );
-						array_push( $sql_arr,$url[$i]['webSales'] );
+						array_push( $sql_arr,$url[$i]['descriptionFilterHtml'] );
 						array_push( $sql_arr,$url[$i]['showInfo'][0]['longitude'] );
 						array_push( $sql_arr,$url[$i]['showInfo'][0]['latitude'] );
 						array_push( $sql_arr,'opendata' );
@@ -68,12 +67,10 @@
 			$dt = sql_q($sql_s,array());
 			$sql = "INSERT INTO data (d_no,title,content,lng,lat,type,stime,etime,note,category,address) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			for ($i=0; $i < count($url); $i++) {
-				for ($x=0; $x < count($dt) ; $x++) { 
-					$pro = '998';
-					if($url[$i]['title']===$dt[$x]['title']){
-						$pro = '999';
-						break;
-					}
+				if($url[$i]['descriptionFilterHtml']==''||$url[$i]['descriptionFilterHtml']==' '){
+					$pro='999';
+				}else{
+					$pro='998';
 				}
 				if($pro!='999'){
 					if(count($url[$i]['showInfo'])!='1'){
@@ -124,12 +121,21 @@
 			$dt = sql_q($sql_s,array());
 			$sql = "INSERT INTO data (d_no,title,content,lng,lat,type,stime,etime,note,category,address) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			for ($i=0; $i < count($url); $i++) {
-				for ($x=0; $x < count($dt) ; $x++) { 
-					$pro = '998';
-					if($url[$i]['title']===$dt[$x]['title']){
-						$pro = '999';
-						break;
-					}
+				// for ($x=0; $x < count($dt) ; $x++) { 
+				// 	$pro = '998';
+				// 	if($url[$i]['title']===$dt[$x]['title']){
+				// 		$pro = '999';
+				// 		break;
+				// 	}
+				// 	if($url[$i]['descriptionFilterHtml']==''){
+				// 		$pro = '999';
+				// 		break;
+				// 	}
+				// }
+				if($url[$i]['descriptionFilterHtml']==''){
+					$pro='999';
+				}else{
+					$pro='998';
 				}
 				if($pro!='999'){
 					if(count($url[$i]['showInfo'])!='1'){
@@ -180,12 +186,10 @@
 			$dt = sql_q($sql_s,array());
 			$sql = "INSERT INTO data (d_no,title,content,lng,lat,type,stime,etime,note,category,address) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			for ($i=0; $i < count($url); $i++) {
-				for ($x=0; $x < count($dt) ; $x++) { 
-					$pro = '998';
-					if($url[$i]['title']===$dt[$x]['title']){
-						$pro = '999';
-						break;
-					}
+				if($url[$i]['descriptionFilterHtml']==''){
+					$pro='999';
+				}else{
+					$pro='998';
 				}
 				if($pro!='999'){
 					if(count($url[$i]['showInfo'])!='1'){
@@ -236,12 +240,10 @@
 			$dt = sql_q($sql_s,array());
 			$sql = "INSERT INTO data (d_no,title,content,lng,lat,type,stime,etime,note,category,address) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			for ($i=0; $i < count($url); $i++) {
-				for ($x=0; $x < count($dt) ; $x++) { 
-					$pro = '998';
-					if($url[$i]['title']===$dt[$x]['title']){
-						$pro = '999';
-						break;
-					}
+				if($url[$i]['descriptionFilterHtml']==''){
+					$pro='999';
+				}else{
+					$pro='998';
 				}
 				if($pro!='999'){
 					if(count($url[$i]['showInfo'])!='1'){
